@@ -1,12 +1,21 @@
-enum FractalType { mandelbrotSet, sierpinskiTriangle }
+enum FractalType { mandelbrotSet, sierpinskiTriangle, kockSnowflake }
+
+class FractalTypeInfo {
+  final String label;
+  final bool isEnabled;
+
+  const FractalTypeInfo(this.label, this.isEnabled);
+}
 
 extension FractalTypeExtension on FractalType {
-  String get label {
+  FractalTypeInfo get info {
     switch (this) {
       case FractalType.mandelbrotSet:
-        return "Mandelbrot Set";
+        return FractalTypeInfo("Mandelbrot Set", true);
       case FractalType.sierpinskiTriangle:
-        return "Sierpinski Triangle";
+        return FractalTypeInfo("Sierpinski Triangle", false);
+      case FractalType.kockSnowflake:
+        return FractalTypeInfo("Kock Snowflake", false);
     }
   }
 }

@@ -13,15 +13,12 @@ class FractalsListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ListTile(
-          title: Text(label),
-          // subtitle: Text("Description $index"),
-          trailing: Icon(Icons.arrow_forward_ios_rounded),
-          enabled: isEnabled,
-        ),
-      ],
+    return ListTile(
+      title: Text(label),
+      // subtitle: Text("Description $index"),
+      trailing: Icon(Icons.arrow_forward_ios_rounded),
+      enabled: isEnabled,
+      contentPadding: EdgeInsets.symmetric(horizontal: 4),
     );
   }
 }

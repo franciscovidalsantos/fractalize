@@ -9,6 +9,7 @@ class FractalsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
       itemCount: fractalTypes.length,
       itemBuilder: (context, index) {
         final FractalTypeInfo itemInfo = fractalTypes[index].info;
@@ -19,7 +20,7 @@ class FractalsList extends StatelessWidget {
         );
       },
       separatorBuilder: (context, index) {
-        return const Divider(height: 2, indent: 16, endIndent: 16);
+        return const Divider(height: 1);
       },
     );
   }

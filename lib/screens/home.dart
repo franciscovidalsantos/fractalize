@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fractalize/widgets/fractals_list.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -15,7 +16,7 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: Colors.indigoAccent,
         title: Text("fractalize", style: TextStyle(color: Colors.white)),
       ),
-      body: Center(child: Text("fractalize")),
+      body: FractalsList(),
     );
   }
 }

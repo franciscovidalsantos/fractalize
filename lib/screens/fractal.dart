@@ -16,7 +16,14 @@ class _FractalScreenState extends State<FractalScreen> {
     return Scaffold(
       appBar: FractalizeAppBar(
         title: widget.fractalType.info.label.toLowerCase(),
-        hasInfoButton: false,
+        resetButton: IconButton(
+          icon: const Icon(Icons.restart_alt),
+          onPressed: () {
+            setState(() {
+              // TODO: reset fractal painter state.
+            });
+          },
+        ),
       ),
     );
   }

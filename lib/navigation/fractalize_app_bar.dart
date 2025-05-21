@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
 
 class FractalizeAppBar extends StatefulWidget implements PreferredSizeWidget {
-  const FractalizeAppBar({
-    super.key,
-    required this.title,
-    this.hasInfoButton = true,
-  });
+  const FractalizeAppBar({super.key, required this.title, this.resetButton});
   final String title;
-  final bool hasInfoButton;
+  final IconButton? resetButton;
 
   @override
   State<FractalizeAppBar> createState() => _FractalizeAppBarState();
@@ -30,17 +26,15 @@ class _FractalizeAppBarState extends State<FractalizeAppBar> {
               )
               : null,
 
-      actions:
-          widget.hasInfoButton
-              ? [
-                IconButton(
-                  icon: Icon(Icons.info_outline),
-                  onPressed: () {
-                    // TODO: open a dialog with info about the page.
-                  },
-                ),
-              ]
-              : null,
+      actions: [
+        widget.resetButton ??
+            IconButton(
+              icon: Icon(Icons.info_outline),
+              onPressed: () {
+                // TODO: open a dialog with info about the page.
+              },
+            ),
+      ],
       actionsIconTheme: IconThemeData(color: Colors.white),
     );
   }

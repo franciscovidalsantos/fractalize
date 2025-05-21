@@ -13,7 +13,7 @@ class FractalsListItem extends StatelessWidget {
       // subtitle: Text("Description $index"),
       trailing: Icon(Icons.arrow_forward_ios_rounded),
       enabled: fractalType.info.isEnabled,
-      contentPadding: EdgeInsets.symmetric(horizontal: 4),
+      contentPadding: EdgeInsets.symmetric(horizontal: 20),
       onTap: () {
         Navigator.push(
           context,

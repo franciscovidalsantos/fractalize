@@ -12,12 +12,7 @@ class FractalsList extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16),
       itemCount: fractalTypes.length,
       itemBuilder: (context, index) {
-        final FractalTypeInfo itemInfo = fractalTypes[index].info;
-        return FractalsListItem(
-          index: index,
-          label: itemInfo.label,
-          isEnabled: itemInfo.isEnabled,
-        );
+        return FractalsListItem(fractalType: fractalTypes[index]);
       },
       separatorBuilder: (context, index) {
         return const Divider(height: 1);

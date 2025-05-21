@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fractalize/enums/fractal_type.dart';
+import 'package:fractalize/navigation/fractalize_app_bar.dart';
 
 class FractalScreen extends StatefulWidget {
   const FractalScreen({super.key, required this.fractalType});
@@ -13,18 +14,9 @@ class _FractalScreenState extends State<FractalScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.indigoAccent,
-        title: Text(
-          widget.fractalType.info.label.toLowerCase(),
-          style: TextStyle(color: Colors.white),
-        ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.info_outline, color: Colors.white),
-            onPressed: () {},
-          ),
-        ],
+      appBar: FractalizeAppBar(
+        title: widget.fractalType.info.label.toLowerCase(),
+        hasInfoButton: false,
       ),
     );
   }

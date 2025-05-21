@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:fractalize/widgets/app_bottom_navigation_bar.dart';
+import 'package:fractalize/navigation/fractalize_app_bar.dart';
+import 'package:fractalize/navigation/fractalize_bottom_navigation_bar.dart';
 import 'package:fractalize/widgets/fractals_list.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -20,20 +21,9 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.indigoAccent,
-        title: Text("fractalize", style: TextStyle(color: Colors.white)),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.info_outline, color: Colors.white),
-            onPressed: () {
-              // TODO: open a dialog with info about the page.
-            },
-          ),
-        ],
-      ),
+      appBar: FractalizeAppBar(title: "fractalize"),
       body: FractalsList(),
-      bottomNavigationBar: AppBottomNavigationBar(
+      bottomNavigationBar: FractalizeBottomNavigationBar(
         currentIndex: _currentIndex,
         onItemTapped: _onItemTapped,
       ),

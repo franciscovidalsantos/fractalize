@@ -15,7 +15,7 @@ class FractalsList extends StatelessWidget {
         return FractalsListItem(fractalType: fractalTypes[index]);
       },
       separatorBuilder: (context, index) {
-        return const Divider(height: 1);
+        return const Divider(height: 0);
       },
     );
   }

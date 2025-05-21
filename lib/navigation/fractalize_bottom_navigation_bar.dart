@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class AppBottomNavigationBar extends StatefulWidget {
-  const AppBottomNavigationBar({
+class FractalizeBottomNavigationBar extends StatefulWidget {
+  const FractalizeBottomNavigationBar({
     super.key,
     required this.currentIndex,
     required this.onItemTapped,
@@ -10,10 +10,12 @@ class AppBottomNavigationBar extends StatefulWidget {
   final Function(int) onItemTapped;
 
   @override
-  State<AppBottomNavigationBar> createState() => _AppBottomNavigationBarState();
+  State<FractalizeBottomNavigationBar> createState() =>
+      _FractalizeBottomNavigationBarState();
 }
 
-class _AppBottomNavigationBarState extends State<AppBottomNavigationBar> {
+class _FractalizeBottomNavigationBarState
+    extends State<FractalizeBottomNavigationBar> {
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
@@ -26,7 +28,6 @@ class _AppBottomNavigationBarState extends State<AppBottomNavigationBar> {
       selectedItemColor: Colors.white,
       unselectedItemColor: Colors.white70,
       showUnselectedLabels: false,
-      showSelectedLabels: true,
       onTap: widget.onItemTapped,
     );
   }

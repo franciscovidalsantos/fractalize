@@ -25,7 +25,9 @@ class _FractalScreenState extends State<FractalScreen> {
 
   int _currentIterations = 5; // Minimum iterations value
 
+  bool _hasMaxZoomOut = false;
   bool _isInteracting = false;
+
   void _handleInteractionStart(ScaleStartDetails details) {
     _interactionScale = _scale;
     setState(() {
@@ -37,13 +39,15 @@ class _FractalScreenState extends State<FractalScreen> {
     double interactionScale = _interactionScale / details.scale;
     setState(() {
       // Limit zoom while zooming out
-      if (interactionScale > _maxZoomScale) {
+      if (interactionScale >= _maxZoomScale) {
+        _hasMaxZoomOut = true;
         _scale = _maxZoomScale;
         _offset = _maxZoomOffset;
         return;
       }
       // Update zoom while zooming in
       if (interactionScale < _maxZoomScale) {
+        _hasMaxZoomOut = false;
         _scale = interactionScale;
         _offset += details.focalPointDelta * interactionScale;
         return;
@@ -94,7 +98,12 @@ class _FractalScreenState extends State<FractalScreen> {
             scale: _scale,
             offset: _offset + const Offset(150, 0),
             currentIterations: _currentIterations,
-            resolution: _isInteracting ? 4.0 : 1.0,
+            resolution:
+                _isInteracting
+                    ? _hasMaxZoomOut
+                        ? 1.0
+                        : 4.0
+                    : 1.0,
           ),
         ),
       ),

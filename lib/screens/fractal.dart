@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fractalize/enums/fractal_type.dart';
 import 'package:fractalize/navigation/fractalize_app_bar.dart';
 import 'package:fractalize/painters/mandelbrot.dart';
+import 'package:fractalize/painters/sierpinski.dart';
 
 class FractalScreen extends StatefulWidget {
   const FractalScreen({super.key, required this.fractalType});
@@ -61,6 +62,37 @@ class _FractalScreenState extends State<FractalScreen> {
     });
   }
 
+  _selectPainter(FractalType fractalType) {
+    switch (fractalType) {
+      case FractalType.mandelbrotSet:
+        return MandelbrotPainter(
+          scale: _scale,
+          offset: _offset + const Offset(150, 0),
+          currentIterations: _currentIterations,
+          resolution:
+              _isInteracting
+                  ? _hasMaxZoomOut
+                      ? 1.0
+                      : 4.0
+                  : 1.0,
+        );
+      case FractalType.sierpinskiTriangle:
+        return SierpinskiPainter(
+          scale: _scale,
+          offset: _offset,
+          currentIterations: _currentIterations,
+          resolution:
+              _isInteracting
+                  ? _hasMaxZoomOut
+                      ? 1.0
+                      : 4.0
+                  : 1.0,
+        );
+      case FractalType.kochSnowflake:
+        break;
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -88,7 +120,7 @@ class _FractalScreenState extends State<FractalScreen> {
       ),
       body: Container(
         // TODO: toolbar with options
-        margin: const EdgeInsets.fromLTRB(0, 0, 0, 100),
+        // margin: const EdgeInsets.fromLTRB(0, 0, 0, 100),
         child: GestureDetector(
           onScaleStart: _handleInteractionStart,
           onScaleUpdate: _handleInteractionUpdate,
@@ -97,17 +129,7 @@ class _FractalScreenState extends State<FractalScreen> {
             isComplex: true,
             willChange: _isInteracting,
             size: Size.infinite,
-            painter: MandelbrotPainter(
-              scale: _scale,
-              offset: _offset + const Offset(150, 0),
-              currentIterations: _currentIterations,
-              resolution:
-                  _isInteracting
-                      ? _hasMaxZoomOut
-                          ? 1.0
-                          : 4.0
-                      : 1.0,
-            ),
+            painter: _selectPainter(widget.fractalType),
           ),
         ),
       ),

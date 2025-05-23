@@ -32,15 +32,13 @@ class MandelbrotPainter extends FractalUtilsPainter {
 
     final double adjustedScale = 200.0 / scale;
 
-    // Draws the axes if enabled
+    // Draw selected helpers
     if (showAxes) {
       drawAxis(canvas, size, centerX, centerY, offsetX, offsetY, adjustedScale);
     }
-    // Draws the grid if enabled
-    if (showAxes) {
+    if (showGrid) {
       drawGrid(canvas, size, centerX, centerY, offsetX, offsetY, adjustedScale);
     }
-    // Draw coordinates if enabled
     if (showCoordinates) {
       drawCoordinates(
         canvas,

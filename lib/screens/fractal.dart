@@ -86,24 +86,28 @@ class _FractalScreenState extends State<FractalScreen> {
           },
         ),
       ),
-      body: GestureDetector(
-        onScaleStart: _handleInteractionStart,
-        onScaleUpdate: _handleInteractionUpdate,
-        onScaleEnd: _handleInteractionEnd,
-        child: CustomPaint(
-          isComplex: true,
-          willChange: _isInteracting,
-          size: Size.infinite,
-          painter: MandelbrotPainter(
-            scale: _scale,
-            offset: _offset + const Offset(150, 0),
-            currentIterations: _currentIterations,
-            resolution:
-                _isInteracting
-                    ? _hasMaxZoomOut
-                        ? 1.0
-                        : 4.0
-                    : 1.0,
+      body: Container(
+        // TODO: toolbar with options
+        margin: const EdgeInsets.fromLTRB(0, 0, 0, 100),
+        child: GestureDetector(
+          onScaleStart: _handleInteractionStart,
+          onScaleUpdate: _handleInteractionUpdate,
+          onScaleEnd: _handleInteractionEnd,
+          child: CustomPaint(
+            isComplex: true,
+            willChange: _isInteracting,
+            size: Size.infinite,
+            painter: MandelbrotPainter(
+              scale: _scale,
+              offset: _offset + const Offset(150, 0),
+              currentIterations: _currentIterations,
+              resolution:
+                  _isInteracting
+                      ? _hasMaxZoomOut
+                          ? 1.0
+                          : 4.0
+                      : 1.0,
+            ),
           ),
         ),
       ),

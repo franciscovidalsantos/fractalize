@@ -23,7 +23,7 @@ class SierpinskiPainter extends FractalUtilsPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final Paint paint = Paint();
+    final Paint paint = Paint()..color = Colors.indigoAccent;
 
     final double centerX = size.width / 2;
     final double centerY = size.height / 2;
@@ -33,43 +33,42 @@ class SierpinskiPainter extends FractalUtilsPainter {
 
     final double adjustedScale = 200.0 / scale;
 
-    final double step = resolution;
+    // Triangle dimensions
+    final double triangleSide = 1;
+    final double triangleHeight = sqrt(3) / 2 * triangleSide;
 
-    // TODO: This is a workaround to match the iterations with the Sierpinski triangle's structure
-    final int adaptedcurrentIterations = (currentIterations / 5).toInt();
+    // Scaled triangle dimensions
+    final double scaledTriangleSide = triangleSide * adjustedScale;
+    final double scaledTriangleHeight = triangleHeight * adjustedScale;
 
-    // Draw the Sierpinski triangle
-    for (double x = 0; x < size.width; x += step) {
-      for (double y = 0; y < size.height; y += step) {
-        double fx = (x - centerX - offsetX) / adjustedScale;
-        double fy = (y - centerY - offsetY) / adjustedScale;
+    // Triangle points in screen space
+    final Offset top = Offset(
+      centerX + offsetX,
+      centerY + offsetY - scaledTriangleHeight,
+    );
+    final Offset left = Offset(
+      centerX + offsetX - scaledTriangleSide,
+      centerY + offsetY + scaledTriangleHeight,
+    );
+    final Offset right = Offset(
+      centerX + offsetX + scaledTriangleSide,
+      centerY + offsetY + scaledTriangleHeight,
+    );
 
-        // Rotate by -45 degrees with -pi/4
-        final double angle = -pi / 4;
-        final double cosTheta = cos(angle);
-        final double sinTheta = sin(angle);
-        double posRotateX = fx * cosTheta - fy * sinTheta;
-        double posRotateY = fx * sinTheta + fy * cosTheta;
+    // TODO: This is a workaround to match the iterations with the Sierpinski
+    // triangle's structure remove line bellow when we match an interface
+    // button for iterations that's able to differ the fractal type
+    // is also subtracting 1 since the starting state is 0
+    final int adaptedCurrentIterations = (currentIterations / 5).toInt() - 1;
 
-        if (_isSierpinskiPixel(
-          Offset(posRotateX, posRotateY),
-          adaptedcurrentIterations,
-        )) {
-          paint.color = Colors.black;
-          canvas.drawRect(Rect.fromLTWH(x, y, step, step), paint);
-        } else {
-          paint.color =
-              Color.lerp(
-                Colors.white,
-                Colors.black,
-                sqrt(pow(x - centerX, 2) + pow(y - centerY, 2)) /
-                    (sqrt(pow(size.width, 2) + pow(size.height, 2))),
-              )!;
-
-          canvas.drawRect(Rect.fromLTWH(x, y, step, step), paint);
-        }
-      }
-    }
+    _drawSierpinskiTriangle(
+      canvas,
+      paint,
+      top,
+      left,
+      right,
+      adaptedCurrentIterations,
+    );
 
     // Draw selected helpers at the end to avoid overlapping
     if (showAxes) {
@@ -91,18 +90,63 @@ class SierpinskiPainter extends FractalUtilsPainter {
     }
   }
 
-  bool _isSierpinskiPixel(Offset p, int iterations) {
-    double x = p.dx;
-    double y = p.dy / sqrt(3);
-
-    for (int i = 0; i < iterations; i++) {
-      if (x % 0.5 >= 0.25 && y % (1 / 2 / sqrt(3)) >= (1 / 4 / sqrt(3))) {
-        return true;
-      }
-      x *= 2;
-      y *= 2;
+  void _drawSierpinskiTriangle(
+    Canvas canvas,
+    Paint paint,
+    Offset top,
+    Offset left,
+    Offset right,
+    int iterations,
+  ) {
+    if (iterations == 0) {
+      final Path path =
+          Path()
+            ..moveTo(top.dx, top.dy)
+            ..lineTo(left.dx, left.dy)
+            ..lineTo(right.dx, right.dy)
+            ..close();
+      canvas.drawPath(path, paint);
+      return;
     }
-    return false;
+
+    // Midpoints of sides
+    final Offset leftMid = Offset(
+      (top.dx + left.dx) / 2,
+      (top.dy + left.dy) / 2,
+    );
+    final Offset rightMid = Offset(
+      (top.dx + right.dx) / 2,
+      (top.dy + right.dy) / 2,
+    );
+    final Offset bottomMid = Offset(
+      (left.dx + right.dx) / 2,
+      (left.dy + right.dy) / 2,
+    );
+
+    _drawSierpinskiTriangle(
+      canvas,
+      paint,
+      top,
+      leftMid,
+      rightMid,
+      iterations - 1,
+    );
+    _drawSierpinskiTriangle(
+      canvas,
+      paint,
+      leftMid,
+      left,
+      bottomMid,
+      iterations - 1,
+    );
+    _drawSierpinskiTriangle(
+      canvas,
+      paint,
+      rightMid,
+      bottomMid,
+      right,
+      iterations - 1,
+    );
   }
 
   @override
